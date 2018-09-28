@@ -28,6 +28,7 @@ Django的开发者保证主要版本号向后兼容。 这意味着，你用Djan
 所以，此书覆盖1.1版本，可以使用很长时间。 
 
 ### 获取帮助 
+
 Django的最大的益处是,有一群乐于助人的人在Django社区上。你可以毫无约束的提各种 问题在上面,如:django的安装,app 设计,db 设计,发布。 
 	Django邮件列表是很多Django用户提出问题、回答问题的地方。 可以通过http://www.djangoproject.com/r/django-users 来免费注册。 
 	如果Django用户遇到棘手的问题,希望得到及时地回复，可以使用Django IRC channel。 在Freenode IRC network加入#django 
