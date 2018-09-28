@@ -22,3 +22,11 @@
 ### Django版本支持
 
 此书内容对Django 1.1兼容。
+
+Django的开发者保证主要版本号向后兼容。 这意味着，你用Django 1.1写的应用，可以用于1.2，1.3，1.9等所有以1开头的版本 
+如果Django到了2.0，你的应用可能不再兼容，需要重写，但是，2.0是很遥远的事情。 对此，可以参考一下1.0的开发周期，整整3年的时间。 （这与Python语言的兼容策略非常像： 在python 2.0下写的代码可以在python 2.6下运行，但不一定能在python3.0下运行 
+所以，此书覆盖1.1版本，可以使用很长时间。 
+获取帮助 
+Django的最大的益处是,有一群乐于助人的人在Django社区上。你可以毫无约束的提各种 问题在上面,如:django的安装,app 设计,db 设计,发布。 
+	Django邮件列表是很多Django用户提出问题、回答问题的地方。 可以通过http://www.djangoproject.com/r/django-users 来免费注册。 
+	如果Django用户遇到棘手的问题,希望得到及时地回复，可以使用Django IRC channel。 在Freenode IRC network加入#django 
