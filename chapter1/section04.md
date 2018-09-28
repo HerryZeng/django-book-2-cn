@@ -18,3 +18,7 @@
 如果你有Python开发经验，在学习过程中应该不会有任何问题。 基本上,Django的代码并没有使用一些黑色魔法（例如代码中的花哨技巧，某个实现解释或者理解起来十分困难）。 对你来说，学习Django就是学习她的命名规则和API。 
 
 如果你没有使用 `Python`编程的经验，你一定会学到很多东西。 它是非常易学易用的。 虽然这本书没有包括一个完整的 `Python`教程， 但也算是一个恰当的介绍了Python特征和功能的集锦。 当然，我们推荐你读一下官方的 Python 教程，它可 以从 [http://docs.python.org/tut/](http://docs.python.org/tut/) 在线获得。 另外我们也推荐 Mark Pilgrims的 书 Dive Into Python （ [http://www.diveintopython.org/](http://www.diveintopython.org/) ）
+
+### Django版本支持
+
+此书内容对Django 1.1兼容。
