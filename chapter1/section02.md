@@ -41,3 +41,5 @@ urlpatterns = patterns('',
 </body></html>
 
 ```
+然后，不用关心语法细节；只要用心感觉整体的设计。这里只关注分割后的几个文件：
+- `models.py`:文件主要用一个`Python`类来描述数据表。称为_模型（model）_
