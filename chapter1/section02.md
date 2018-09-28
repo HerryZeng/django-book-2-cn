@@ -44,3 +44,4 @@ urlpatterns = patterns('',
 然后，不用关心语法细节；只要用心感觉整体的设计。这里只关注分割后的几个文件：
 - `models.py`:文件主要用一个`Python`类来描述数据表。称为_模型（model）_。运用这个类，你可能通过简单的`Python`的代码来创建、查询、更新、删除数据库中的记录而不需写一条`SQL`语句。
 + `views.py`:文件包含 页面的业务逻辑。latest_books()函数叫视图
+* `urls.py`: 指出了什么样的`URL`调用什么样的视图。在这个例子中`/latest/`将会调用`latest_books()`这个函数。换句话说，如果你的域名是`example.com`，任何人浏览网址`http://example.com/latest/`将会调用`latest_books()`这个函数。
