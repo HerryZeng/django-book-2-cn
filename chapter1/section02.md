@@ -1,4 +1,4 @@
-# MVC设计模式
+## MVC设计模式
 
 让我们来研究一个简单的例子，通过该实例，你可以分辨出，通过`Web`框架来实现的功能与之前的方式有何不同。下面就是通过使用`Django`来写成以上功能的例子：首先，我们分成4个`Python`文件（`models.py`、`views.py`、`urls.py`）和`html`模板文件（latest_books.html）。
 ```python
