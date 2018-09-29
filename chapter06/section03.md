@@ -5,4 +5,19 @@
 你要使用你原来设置的超级用户的用户名和密码。如果无法登录，请运行`python manage.py createsuperuser` ，确保你已经创建了一个超级用户。
 
 一旦登录了，你将看到管理页面。这个页面列出了管理工具中可编辑的所有数据类型。 现在，由于我们还没有创建任何模块，所以这个列表只有寥寥数条类目： 它仅有两个默认的管理-编辑模块：用户组(Groups)和用户(Users)。
-![Admin首页](../images/chapger06/002.png)
+![Admin首页](../images/chapter06/002.png)
+
+在`Django`管理页面中，每一种数据类型都有一个`change list`和`edit form` 。前者显示数据库中所有的可用对象；后者可让你添加、更改和删除数据库中的某条记录。
+
+### 其它语言 
+如果你的母语不是英语，而你不想用它来配置你的浏览器，你可以做一个快速更改来观察`Django`管理工具是否被翻译成你想要的语言。 仅需添加`django.middleware.locale.LocaleMiddleware` 到`MIDDLEWARE_CLASSES` 设置中，并确保它在`django.contrib.sessions.middleware.SessionMiddleware` 之后 。（见上） 
+
+完成后，请刷新页面。 如果你设置的语言可用，一系列的链接文字将被显示成这种语言。这些文字包括页面顶端的`Change password`和`Log out`，页面中部的`Groups`和`Users`。 `Django`自带了多种语言的翻译。
+
+关于`Django`更多的国际化特性，请参见第十九章。
+
+点击`Uers`行中的`Change`链接，引导用户更改列表。
+![用户更改列表](../images/chapter06/003.png)
+这个页面显示了数据库中所有的用户。你可以将它看作是一个漂亮的网页版查询：`SELECT * FROM auth_user;` 如果你一直跟着作练习，并且只添加了一个用户，你会在这个页面中看到一个用户。但是如果你添加了多个用户，你会发现页面中还有过滤器、排序和查询框。 过滤器在右边；排序功能可通过点击列头查看；查询框在页面顶部，它允许你通过用户名查询。
+点击其中一个用户名，你会看见关于这个用户的编辑窗口。
+![编辑](../images/chapter06/004.png)
