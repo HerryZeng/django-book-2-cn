@@ -9,8 +9,7 @@
 
 在`Django`管理页面中，每一种数据类型都有一个`change list`和`edit form` 。前者显示数据库中所有的可用对象；后者可让你添加、更改和删除数据库中的某条记录。
 
-### 其它语言 
-如果你的母语不是英语，而你不想用它来配置你的浏览器，你可以做一个快速更改来观察`Django`管理工具是否被翻译成你想要的语言。 仅需添加`django.middleware.locale.LocaleMiddleware` 到`MIDDLEWARE_CLASSES` 设置中，并确保它在`django.contrib.sessions.middleware.SessionMiddleware` 之后 。（见上） 
+关于其它语言， 如果你的母语不是英语，而你不想用它来配置你的浏览器，你可以做一个快速更改来观察`Django`管理工具是否被翻译成你想要的语言。 仅需添加`django.middleware.locale.LocaleMiddleware` 到`MIDDLEWARE_CLASSES` 设置中，并确保它在`django.contrib.sessions.middleware.SessionMiddleware` 之后 。（见上） 
 
 完成后，请刷新页面。 如果你设置的语言可用，一系列的链接文字将被显示成这种语言。这些文字包括页面顶端的`Change password`和`Log out`，页面中部的`Groups`和`Users`。 `Django`自带了多种语言的翻译。
 
