@@ -10,6 +10,7 @@
 * [第三章：视图与URL配置](chapter03.md)
   * [你的第一个基于Django的页面: Hello World](chapter03/section01.md)
   * [你的第一个URLconf](chapter03/section02.md)
+  * [关于“404错误”的快速参考 ](chapter03/section03.md)
 * [第四章：模板](chapter04.md)
 * [第五章：模型](di-wu-zhang-ff1a-mo-xing.md)
 * [第六章：Django站点管理](chapter06.md)
