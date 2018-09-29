@@ -79,4 +79,10 @@
 ### 排序
 
 最后，让我们改变默认的排序方式，按`publication date`降序排列。 列表页面默认按照模块`class Meta`（详见第五章）中的`ordering`所指的列排序。但目前没有指定`ordering`值，所以当前排序是没有定义的。
-
+```python
+    class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'publisher', 'publication_date')
+    list_filter = ('publication_date',)
+    date_hierarchy = 'publication_date'
+    ordering = ('-publication_date',)
+```
