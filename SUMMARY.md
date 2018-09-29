@@ -13,6 +13,7 @@
   * [关于“404错误”的快速参考 ](chapter03/section03.md)
   * [关于网站根目录的快速参考](chapter03/section04.md)
   * [Django是怎么处理请求的 ](chapter03/section05.md)
+  * [第二个视图： 动态内容](chapter03/section06.md)
 * [第四章：模板](chapter04.md)
 * [第五章：模型](di-wu-zhang-ff1a-mo-xing.md)
 * [第六章：Django站点管理](chapter06.md)
