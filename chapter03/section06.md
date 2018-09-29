@@ -44,3 +44,5 @@
         path('time/',current_datetime),
     ]
 ```
+这里，我们修改了两个地方。 首先，在顶部导入current_datetime函数； 其次，也是比较重要的：添加URL模式来映射URL中的/time/和新视图。 理解了么？ 
+写好视图并且更新URLconf之后，运行命令python manage.py runserver以启动服务，在浏览器中输入http://127.0.0.1:8000/time/。 你将看到当前的日期和时间。
