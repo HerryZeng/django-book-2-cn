@@ -31,5 +31,25 @@
 
 ### 自定义多对多字段
 
-另一个常用的编辑页面自定义是针对多对多字段的。 真如我们在book编辑页面看到的那样，`` 多对多字段`` 被展现成多选框。虽然多选框在逻辑上是最适合的HTML控件，但它却不那么好用。 如果你想选择多项，你必须还要按下Ctrl键（苹果机是command键）。 虽然管理工具因此添加了注释（help_text），但是当它有几百个选项时，它依然显得笨拙。 
-更好的办法是使用filter_horizontal。让我们把它添加到BookAdmin中，然后看看它的效果。 
+另一个常用的编辑页面自定义是针对多对多字段的。 真如我们在`book`编辑页面看到的那样，`多对多字段`被展现成多选框。虽然多选框在逻辑上是最适合的HTML控件，但它却不那么好用。 如果你想选择多项，你必须还要按下Ctrl键（苹果机是command键）。 虽然管理工具因此添加了注释（help_text），但是当它有几百个选项时，它依然显得笨拙。
+ 
+更好的办法是使用`filter_horizontal`。让我们把它添加到`BookAdmin`中，然后看看它的效果。 
+```python
+    class BookAdmin(admin.ModelAdmin):
+        list_display = ('title', 'publisher', 'publication_date')
+        list_filter = ('publication_date',)
+        date_hierarchy = 'publication_date'
+        ordering = ('-publication_date',)
+        filter_horizontal = ('authors',)
+```
+（如果你一着跟着做练习，请注意移除fields选项，以使得编辑页面包含所有字段。） 
+
+刷新book编辑页面，你会看到Author区中有一个精巧的JavaScript过滤器，它允许你检索选项，然后将选中的authors从Available框移到Chosen框，还可以移回来。
+
+我们强烈建议针对那些拥有十个以上选项的`多对多字段`使用`filter_horizontal`。 这比多选框好用多了。 你可以在多个字段上使用filter_horizontal，只需在这个元组中指定每个字段的名字。 
+`ModelAdmin`类还支持`filter_vertical`选项。 它像`filter_horizontal`那样工作，除了控件都是垂直排列，而不是水平排列的。 至于使用哪个，只是个人喜好问题。 
+
+`filter_horizontal`和`filter_vertical`选项只能用在多对多字段上, 而不能用于 `ForeignKey`字段。 默认地，管理工具使用`下拉框`来展现`外键`字段。但是，正如`多对多字段`那样，有时候你不想忍受因装载并显示这些选项而产生的大量开销。 例如，我们的book数据库膨胀到拥有数千条publishers的记录，以致于book的添加页面装载时间较久，因为它必须把每一个publishe都装载并显示在`下拉框`中。 
+
+
+
