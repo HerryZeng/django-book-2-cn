@@ -24,3 +24,10 @@
         html = "<html><body>It is now %s.</body></html>" % now
         return HttpResponse(html)
 ```
+
+让我们分析一下改动后的views.py： 
+在文件顶端，我们添加了一条语句：import datetime。这样就可以计算日期了。 
+函数中的第一行代码计算当前日期和时间，并以 datetime.datetime 对象的形式保存为局部变量 now 。 
+函数的第二行代码用 Python 的格式化字符串（format-string）功能构造了一段 HTML 响应。 字符串中的%s是占位符，字符串后面的百分号表示用它后面的变量now的值来代替%s。变量%s是一个datetime.datetime对象。它虽然不是一个字符串，但是%s（格式化字符串）会把它转换成字符串，如：2008-12-13 14:09:39.002731。这将导致HTML的输出字符串为：It is now 2008-12-13 14:09:39.002731。 （目前HTML是有错误的，但我们这样做是为了保持例子的简短。） 
+
+最后，正如我们刚才写的hello函数一样，视图返回一个HttpResponse对象，它包含生成的响应。
