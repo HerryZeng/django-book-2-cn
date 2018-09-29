@@ -16,6 +16,7 @@
   * [第二个视图： 动态内容](chapter03/section06.md)
   * [URL配置和松耦合](chapter03/section07.md)
   * [第三个视图 动态URL ](chapter03/section08.md)
+  * [Django 漂亮的出错页面](chapter03/section09.md)
 * [第四章：模板](chapter04.md)
 * [第五章：模型](di-wu-zhang-ff1a-mo-xing.md)
 * [第六章：Django站点管理](chapter06.md)
