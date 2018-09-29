@@ -32,4 +32,17 @@
 在大多数情况下，这种默认的行为对你的应用程序来说是最佳的，因为它可以使你不再因数据一致性而头痛。 而且它可以和`Django`的其它部分工作得很好。如在管理工具中，如果你留空一个字符型字段，它会为此插入一个空字符串（而**不是**`NULL`）。
 
 
+但是，其它数据类型有例外：日期型、时间型和数字型字段不接受空字符串。 如果你尝试将一个空字符串插入日期型或整数型字段，你可能会得到数据库返回的错误，这取决于那个数据库的类型。 （PostgreSQL比较严禁，会抛出一个异常；MySQL可能会也可能不会接受，这取决于你使用的版本和运气了。）在这种情况下，`NULL`是唯一指定空值的方法。 在`Django`模块中，你可以通过添加`null=True`来指定一个字段允许为`NULL`。
+
+因此，这说起来有点复杂： 如果你想允许一个日期型（`DateField`、`TimeField`、`DateTimeField`）或数字型（`IntegerField`、`DecimalField`、`FloatField`）字段为空，你需要使用`null=True` 和`blank=True`。 
+为了举例说明，让我们把Book模块修改成允许 publication_date为空。修改后的代码如下： 
+```python
+    class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField(Author)
+    publisher = models.ForeignKey(Publisher)
+    publication_date = models.DateField(blank=True, null=True)
+```
+
+
 
