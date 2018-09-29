@@ -13,6 +13,7 @@
 * [第六章：Django站点管理](chapter06.md)
   * [django contrib包](chapter06/section01.md)
   * [激活管理界面](chapter06/section02.md)
+  * [使用管理工具](chapter06/section03.md)
 * [第七章：表单](di-qi-zhang-ff1a-biao-dan.md)
 * [第八章：高级视图与URL配置](di-ba-zhang-ff1a-gao-ji-shi-tu-yu-url-pei-zhi.md)
 * [第九章：模板高级进阶](di-jiu-zhang-ff1a-mo-ban-gao-ji-jin-jie.md)
