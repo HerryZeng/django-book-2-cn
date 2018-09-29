@@ -13,7 +13,7 @@
     from django.http import HttpResponse
     
     def hello(request):
-    return HttpResponse("Hello world")
+        return HttpResponse("Hello world")
 ```
 我们逐行逐句地分析一遍这段代码： 
 首先，我们从 django.http 模块导入（import） HttpResponse 类。参阅附录 H 了解更多关于 HttpRequest 和 HttpResponse 的细节。 我们需要导入这些类，因为我们会在后面用到。 
