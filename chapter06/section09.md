@@ -5,3 +5,11 @@
 ### 自定义字段顺序
 
 首先，我们先自定义字段顺序。 默认地，表单中的字段顺序是与模块中定义是一致的。我们可以通过使用ModelAdmin子类中的fields选项来改变它： 
+```python
+    class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'publisher', 'publication_date')
+    list_filter = ('publication_date',)
+    date_hierarchy = 'publication_date'
+    ordering = ('-publication_date',)
+    fields = ('title', 'authors', 'publisher', 'publication_date')
+```
