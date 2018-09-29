@@ -43,6 +43,14 @@
     publisher = models.ForeignKey(Publisher)
     publication_date = models.DateField(blank=True, null=True)
 ```
+添加`null=True`比添加`blank=True`复杂。因为`null=True`改变了数据的语义，即改变了`CREATE TABLE`语句，把`publication_date`字段上的`NOT NULL`删除了。 要完成这些改动，我们还需要更新数据库。 
+出于某种原因，`Django`不会尝试自动更新数据库结构。所以你必须执行`ALTER TABLE`语句将模块的改动更新至数据库。 像先前那样，你可以使用`manage.py dbshell`进入数据库服务环境。以下是在这个特殊情况下如何删除`NOT NULL`:
+```sql
+    ALTER TABLE books_book ALTER COLUMN publication_date DROP NOT NULL;
+``` 
 
+我们将在第十章详细讲述数据库结构更改。
+
+现在让我们回到管理工具，添加book的编辑页面允许输入一个空的publication date。
 
 
