@@ -27,3 +27,13 @@
     admin.site.register(Author, AuthorAdmin)
     admin.site.register(Book)
 ```
+解释一下代码： 我们新建了一个类`AuthorAdmin`，它是从`django.contrib.admin.ModelAdmin`派生出来的子类，保存着一个类的自定义配置，以供管理工具使用。 我们只自定义了一项：`list_display`， 它是一个字段名称的元组，用于列表显示。 当然，这些字段名称必须是模块中有的。我们修改了`admin.site.register()`调用，在`Author`后面添加了`AuthorAdmin`。你可以这样理解： 用`AuthorAdmin`选项注册`Author`模块。 
+
+`admin.site.register()`函数接受一个`ModelAdmin`子类作为第二个参数。 如果你忽略第二个参数，`Django`将使用默认的选项。`Publisher`和`Book`的注册就属于这种情况。 弄好了这个东东，再刷新author列表页面，你会看到列表中有三列：姓氏、名字和邮箱地址。 另外，点击每个列的列头可以对那列进行排序。
+
+接下来，让我们添加一个快速查询栏。 向`AuthorAdmin`追加`search_fields`，如：
+```python
+    class AuthorAdmin(admin.ModelAdmin):
+        list_display = ('first_name', 'last_name', 'email')
+        search_fields = ('first_name', 'last_name')
+```
