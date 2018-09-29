@@ -9,10 +9,10 @@ Django的URL配置就是一个很好的例子。 在Django的应用程序中，U
 此外，如果我们想要输出这个函数到一些 URL， 我们只需要修改URL配置而不用去改动视图的代码。 在这个例子里，current_datetime被两个URL使用。 这是一个故弄玄虚的例子，但这个方法迟早会用得上。 
 ```python
     urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('hello/',hello),
-    path('time/',current_datetime),
-    path('another-time-page/',current_datetime),
+        path('admin/', admin.site.urls),
+        path('hello/',hello),
+        path('time/',current_datetime),
+        path('another-time-page/',current_datetime),
     ]
 ```
 URLconf和视图是松耦合的。 我们将在本书中继续给出这一重要哲学的相关例子。 
