@@ -41,6 +41,65 @@ Django的URL配置系统可以使你很容易的设置漂亮的URL，而尽量�
 另外一个重点，正则表达式字符串的开头字母“r”。 它告诉Python这是个原始字符串，不需要处理里面的反斜杠（转义字符）。 在普通Python字符串中，反斜杠用于特殊字符的转义。比如n转义成一个换行符。 当你用r把它标示为一个原始字符串后，Python不再视其中的反斜杠为转义字符。也就是说，“n”是两个字符串：“”和“n”。由于反斜杠在Python代码和正则表达式中有冲突，因此建议你在Python定义正则表达式时都使用原始字符串。 从现在开始，本文所有URL模式都用原始字符串。 
 现在我们已经设计了一个带通配符的URL，我们需要一个方法把它传递到视图函数里去，这样 我们只用一个视图函数就可以处理所有的时间段了。 我们使用圆括号把参数在URL模式里标识 出来。 在这个例子中，我们想要把这些数字作为参数，用圆括号把 \d{1,2} 包围起来： 
 ```python
-    path(r'^time/plus/(\d{1,2})/$', hours_ahead),
+    re_path(r'^time/plus/(\d{1,2})/$', hours_ahead),
 ```
 如果你熟悉正则表达式，那么你应该已经了解，正则表达式也是用圆括号来从文本里 提取 数据的。
+
+最终的URLconf包含上面两个视图，如：
+```python
+    from django.contrib import admin
+    from django.urls import path,re_path
+    from mysite.views import hello,current_datetime,hours_ahead
+    
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('hello/',hello),
+        path('time/',current_datetime),
+        path('another-time-page/',current_datetime),
+        re_path(r'^time/plus/(\d{1,2})/$', hours_ahead),
+    ]
+```
+
+现在开始写 hours_ahead 视图。 
+
+编码次序 
+
+这个例子中，我们先写了URLpattern ，然后是视图，但是在前面的例子中， 我们先写了视图，然后是URLpattern 。 哪一种方式比较好？ 
+嗯，怎么说呢，每个开发者是不一样的。 
+如果你是喜欢从总体上来把握事物（注： 或译为“大局观”）类型的人，你应该会想在项目开始 的时候就写下所有的URL配置。 
+如果你从更像是一个自底向上的开发者，你可能更喜欢先写视图， 然后把它们挂接到URL上。 这同样是可以的。 
+最后，取决与你喜欢哪种技术，两种方法都是可以的。
+
+hours_ahead 和我们以前写的 current_datetime 很象，关键的区别在于： 它多了一个额外参数，时间差。以下是view代码： 
+```python
+    def hours_ahead(request,offset):
+    try:
+        offset = int(offset)
+    except ValueError:
+        raise Http404
+
+    dt = datetime.datetime.now() + datetime.timedelta(hours=offset)
+    html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
+    return HttpResponse(html)
+```
+让我们逐行分析一下代码： 
+视图函数, hours_ahead , 有 两个 参数: request 和 offset。
+request 是一个 HttpRequest 对象, 就像在 current_datetime 中一样. 再说一次好了: 每一个视图 总是 以一个 HttpRequest 对象作为 它的第一个参数。
+offset 是从匹配的URL里提取出来的。 例如：如果请求URL是/time/plus/3/，那么offset将会是3；如果请求URL是/time/plus/21/，那么offset将会是21。请注意：捕获值永远都是字符串（string）类型，而不会是整数（integer）类型，即使这个字符串全由数字构成（如：“21”）。 
+（从技术上来说，捕获值总是Unicode objects，而不是简单的Python字节串，但目前不需要担心这些差别。） 
+在这里我们命名变量为 offset ，你也可以任意命名它，只要符合Python 的语法。 变量名是无关紧要的，重要的是它的位置，它是这个函数的第二个 参数 (在 request 的后面）。 你还可以使用关键字来定义它，而不是用 位置。 
+
+我们在这个函数中要做的第一件事情就是在 offset 上调用 int() . 这会把这个字符串值转换为整数。 
+请留意：如果你在一个不能转换成整数类型的值上调用int()，Python将抛出一个ValueError异常。如：int(‘foo’)。在这个例子中，如果我们遇到ValueError异常，我们将转为抛出django.http.Http404异常——正如你想象的那样：最终显示404页面（提示信息：页面不存在）。 
+
+机灵的读者可能会问： 我们在URL模式中用正则表达式(d{1,2})约束它，仅接受数字怎么样？这样无论如何，offset都是由数字构成的。 答案是：我们不会这么做，因为URLpattern提供的是“适度但有用”级别的输入校验。万一这个视图函数被其它方式调用，我们仍需自行检查ValueError。实践证明，在实现视图函数时，不臆测参数值的做法是比较好的。 松散耦合，还记得么？
+
+下一行，计算当前日期/时间，然后加上适当的小时数。 在current_datetime视图中，我们已经见过datetime.datetime.now()。这里新的概念是执行日期/时间的算术操作。我们需要创建一个datetime.timedelta对象和增加一个datetime.datetime对象。 结果保存在变量dt中。 
+这一行还说明了，我们为什么在offset上调用int()——datetime.timedelta函数要求hours参数必须为整数类型。 
+这行和前面的那行的的一个微小差别就是，它使用带有两个值的Python的格式化字符串功能， 而不仅仅是一个值。 因此，在字符串中有两个 %s 符号和一个以进行插入的值的元组： (offset, dt) 。 
+最终，返回一个HTML的HttpResponse。 如今，这种方式已经过时了。
+
+在完成视图函数和URL配置编写后，启动Django开发服务器，用浏览器访问 http://127.0.0.1:8000/time/plus/3/ 来确认它工作正常。 然后是 http://127.0.0.1:8000/time/plus/5/ 。再然后是 http://127.0.0.1:8000/time/plus/24/ 。最后，访问 http://127.0.0.1:8000/time/plus/100/ 来检验URL配置里设置的模式是否只 接受一个或两个数字；Django会显示一个 Page not found error 页面, 和以前看到的 404 错误一样。 访问URL http://127.0.0.1:8000/time/plus/ (没有 定义时间差) 也会抛出404错误。
+
+
+
