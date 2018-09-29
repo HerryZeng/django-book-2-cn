@@ -86,3 +86,8 @@
     date_hierarchy = 'publication_date'
     ordering = ('-publication_date',)
 ```
+这个`ordering`选项基本像模块中`class Meta`的`ordering`那样工作，除了它只用列表中的第一个字段名。如果要实现降序，仅需在传入的列表或元组的字段前加上一个减号(-)。 
+
+刷新book列表页面观看实际效果。 注意Publication date列头现在有一个小箭头显示排序。
+
+我们已经学习了主要的选项。 通过使用它们，你可以仅需几行代码就能创建一个功能强大、随时上线的数据编辑界面。
