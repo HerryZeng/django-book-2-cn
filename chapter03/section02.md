@@ -50,3 +50,58 @@
 万岁！ 你已经创建了第一个Django的web页面。 
 
 ### 正则表达式
+
+正则表达式 (或 regexes ) 是通用的文本模式匹配的方法。 Django URLconfs 允许你 使用任意的正则表达式来做强有力的URL映射，不过通常你实际上可能只需要使用很少的一 部分功能。 这里是一些基本的语法。
+
+<table>
+    <thead>
+        <th>符号</th>
+        <th>匹配</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>. (dot)</td>
+            <td>任意单一字符</td>
+        </tr>
+        <tr>
+            <td>\d</td>
+            <td>任意一位数字</td>
+        </tr>
+        <tr>
+            <td>[A-Z]</td>
+            <td>A 到 Z中任意一个字符（大写）</td>
+        </tr>
+        <tr>
+            <td>[a-z]</td>
+            <td>a 到 z中任意一个字符（小写）</td>
+        </tr>
+        <tr>
+            <td>[A-Za-z]</td>
+            <td>a 到 z中任意一个字符（不区分大小写）</td>
+        </tr>
+        <tr>
+            <td>+</td>
+            <td>匹配一个或更多 (例如, \d+ 匹配一个或 多个数字字符)</td>
+        </tr>
+        <tr>
+            <td>[^/]+</td>
+            <td>一个或多个不为‘/’的字符</td>
+        </tr>
+        <tr>
+            <td>?</td>
+            <td>零个或一个之前的表达式（例如：\d? 匹配零个或一个数字）</td>
+        </tr>
+        <tr>
+            <td>*</td>
+            <td>匹配0个或更多 (例如, \d* 匹配0个 或更多数字字符)</td>
+        </tr>
+        <tr>
+            <td>{1,3}</td>
+            <td>介于一个和三个（包含）之前的表达式（例如，\d{1,3}匹配一个或两个或三个数字）
+</td>
+        </tr>
+    </tbody>
+</table>
+
+有关正则表达式的更多内容，请访问 [https://docs.python.org/3/library/re.html?highlight=regexes](https://docs.python.org/3/library/re.html?highlight=regexes)
+
