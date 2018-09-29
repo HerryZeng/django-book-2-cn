@@ -61,4 +61,22 @@
     admin.site.register(Author, AuthorAdmin)
     admin.site.register(Book, BookAdmin)
 ```
+由于我们要处理一系列选项，因此我们创建了一个单独的`ModelAdmin`类：`BookAdmin`。首先，我们定义一个`list_display`，以使得页面好看些。 然后，我们用`list_filter`这个字段元组创建过滤器，它位于列表页面的右边。 `Django`为日期型字段提供了快捷过滤方式，它包含：今天、过往七天、当月和今年。这些是开发人员经常用到的。
+
+`过滤器` 同样适用于其它类型的字段，而不单是`日期型`（请在`布尔型`和`外键`字段上试试）。当有两个以上值时，过滤器就会显示。 
+
+另外一种过滤日期的方式是使用`date_hierarchy`选项，如： 
+```python
+    class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'publisher', 'publication_date')
+    list_filter = ('publication_date',)
+    date_hierarchy = 'publication_date'
+```
+修改好后，页面中的列表顶端会有一个逐层深入的导航条。 它从可用的年份开始，然后逐层细分到月乃至日。
+
+请注意，`date_hierarchy`接受的是**字符串** ，而不是元组。因为只能对一个日期型字段进行层次划分。 
+
+### 排序
+
+最后，让我们改变默认的排序方式，按`publication date`降序排列。 列表页面默认按照模块`class Meta`（详见第五章）中的`ordering`所指的列排序。但目前没有指定`ordering`值，所以当前排序是没有定义的。
 
