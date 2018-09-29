@@ -19,6 +19,7 @@
   * [设置字段可选](chapter06/section06.md)
   * [自定义字段标签](chapter06/section07.md)
   * [自定义ModelAdmin类](chapter06/section08.md)
+  * [自定义编辑表单](chapter06/section09.md)
 * [第七章：表单](di-qi-zhang-ff1a-biao-dan.md)
 * [第八章：高级视图与URL配置](di-ba-zhang-ff1a-gao-ji-shi-tu-yu-url-pei-zhi.md)
 * [第九章：模板高级进阶](di-jiu-zhang-ff1a-mo-ban-gao-ji-jin-jie.md)
