@@ -26,5 +26,4 @@
     admin.site.register(Publisher)
     admin.site.register(Author, AuthorAdmin)
     admin.site.register(Book)
-
 ```
