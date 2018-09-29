@@ -15,3 +15,4 @@ Django的URL配置就是一个很好的例子。 在Django的应用程序中，U
     path('another-time-page/',current_datetime),
     ]
 ```
+URLconf和视图是松耦合的。 我们将在本书中继续给出这一重要哲学的相关例子。 
