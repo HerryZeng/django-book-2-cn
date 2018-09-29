@@ -7,3 +7,11 @@
 
 ### 第一份视图
 
+在上一章使用django-admin.py startproject制作的mysite文件夹中，创建一个叫做views.py的空文件。这个Python模块将包含这一章的视图。 请留意，Django对于view.py的文件命名没有特别的要求，它不在乎这个文件叫什么。但是根据约定，把它命名成view.py是个好主意，这样有利于其他开发者读懂你的代码，正如你很容易的往下读懂本文。 
+我们的Hello world视图非常简单。 这些是完整的函数和导入声明，你需要输入到views.py文件：
+```python
+    from django.http import HttpResponse
+    
+    def hello(request):
+    return HttpResponse("Hello world")
+```
