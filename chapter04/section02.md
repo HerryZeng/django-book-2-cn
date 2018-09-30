@@ -114,9 +114,12 @@ Python的字典数据类型就是关键字和它们值的一个映射。 Context
 
 首先我们导入 （import）类 Template 和 Context ，它们都在模块 django.template 里。 
 我们把模板原始文本保存到变量 raw_template 。注意到我们使用了三个引号来 标识这些文本，因为这样可以包含多行。 
+
 接下来，我们创建了一个模板对象 t ，把 raw_template 作为 Template 类构造函数的参数。 
 我们从Python的标准库导入 datetime 模块，以后我们将会使用它。 
+
 然后，我们创建一个 Context 对象， c 。 Context 构造的参数是Python 字典数据类型。 在这里，我们指定参数 person_name 的值是 'John Smith' , 参数company 的值为 ‘Outdoor Equipment’ ，等等。 
+
 最后，我们在模板对象上调用 render() 方法，传递 context参数给它。 这是返回渲染后的模板的方法，它会替换模板变量为真实的值和执行块标签。 
 
 注意，warranty paragraph显示是因为 ordered_warranty 的值为 True . 注意时间的显示， April 2, 2009 , 它是按 'F j, Y' 格式显示的。 
