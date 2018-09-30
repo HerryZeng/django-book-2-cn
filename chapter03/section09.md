@@ -39,5 +39,5 @@ Django 的出错页某些情况下有能力显示更多的信息，比如模板�
         assert False
         html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
         return HttpResponse(html)
-
 ```
+最后，很显然这些信息很多是敏感的，它暴露了你 Python 代码的内部结构以及 Django 配置，在 Internet 上公开这信息是很愚蠢的。 不怀好意的人会尝试使用它攻击你的 Web 应用程序，做些下流之事。 因此，Django 出错信息仅在 debug 模式下才会显现。 我们稍后 说明如何禁用 debug 模式。 现在，你只要知道 Django 服务器在你开启它时默认运行在 debug 模式就行了。（听起来很熟悉？ 页面没有发现错误，如前所述，工作正常。） 
