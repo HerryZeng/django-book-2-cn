@@ -216,4 +216,61 @@ Django 模板解析非常快捷。 大部分的解析工作都是在后台通过
 ```
 不允许使用负数列表索引。 像 {{ items.-1 }} 这样的模板变量将会引发`TemplateSyntaxError`。
 
+Python 列表类型 
+
+一点提示： Python的列表是从0开始索引。 第一项的索引是0，第二项的是1，依此类推。 句点查找规则可概括为： 当模板系统在变量名中遇到点时，按照以下顺序尝试进行查找：
+    + 字典类型查找 （比如 foo["bar"] ) 
+    + 属性查找 (比如 foo.bar )
+    + 方法调用 （比如 foo.bar() ) 
+    + 列表类型索引查找 (比如 foo[bar] )
+    
+系统使用找到的第一个有效类型。 这是一种短路逻辑。
+
+句点查找可以多级深度嵌套。 例如在下面这个例子中 {{person.name.upper}} 会转换成字典类型查找（ person['name'] ) 然后是方法调用（ upper() ): 
+```python
+    >>> from django.template import Template, Context
+    >>> person = {'name': 'Sally', 'age': '43'}
+    >>> t = Template('{{ person.name.upper }} is {{ person.age }} years old.')
+    >>> c = Context({'person': person})
+    >>> t.render(c)
+    u'SALLY is 43 years old.'
+```
+
+#### 方法调用行为
+
+方法调用比其他类型的查找略为复杂一点。 以下是一些注意事项：
+ 
+在方法查找过程中，如果某方法抛出一个异常，除非该异常有一个 silent_variable_failure 属性并且值为 True ，否则的话它将被传播。如果异常被传播，**模板里的指定变量会被置为空字符串**，比如: 
+```python
+    >>> t = Template("My name is {{ person.first_name }}.")
+    >>> class PersonClass3:
+    ...     def first_name(self):
+    ...         raise AssertionError, "foo"
+    >>> p = PersonClass3()
+    >>> t.render(Context({"person": p}))
+    Traceback (most recent call last):
+    ...
+    AssertionError: foo
+    
+    >>> class SilentAssertionError(AssertionError):
+    ...     silent_variable_failure = True
+    >>> class PersonClass4:
+    ...     def first_name(self):
+    ...         raise SilentAssertionError
+    >>> p = PersonClass4()
+    >>> t.render(Context({"person": p}))
+    u'My name is .'
+```
+仅在方法无需传入参数时，其调用才有效。 否则，系统将会转移到下一个查找类型（列表索引查找）。 
+显然，有些方法是有副作用的，好的情况下允许模板系统访问它们可能只是干件蠢事，坏的情况下甚至会引发安全漏洞。
+
+例如，你的一个 BankAccount 对象有一个 delete() 方法。如果某个模板中包含了像 {{ account.delete }}这样的标签，其中`` account`` 又是BankAccount 的一个实例，请注意在这个模板载入时，account对象将被删除。
+
+要防止这样的事情发生，必须设置该方法的 alters_data 函数属性：
+```python
+    def delete(self):
+        # Delete the account
+    delete.alters_data = True
+```
+模板系统不会执行任何以该方式进行标记的方法。 接上面的例子，如果模板文件里包含了 {{ account.delete }} ，对象又具有 delete()方法，而且delete() 有alters_data=True这个属性，那么在模板载入时， delete()方法将不会被执行。 它将静静地错误退出。
 
