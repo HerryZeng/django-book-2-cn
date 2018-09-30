@@ -292,4 +292,22 @@ Python 列表类型
 ```
 系统静悄悄地表示失败，而不是引发一个异常，因为这通常是人为错误造成的。 这种情况下，因为变量名有错误的状况或名称， 所有的查询都会失败。 现实世界中，对于一个web站点来说，如果仅仅因为一个小的模板语法错误而造成无法访问，这是不可接受的。
 
+### 玩一玩上下文(context)对象
+
+多数时间，你可以通过传递一个完全填充(full populated)的字典给 Context() 来初始化 上下文(Context) 。 但是初始化以后，你也可以使用标准的Python字典语法(syntax)向``上下文(Context)`` 对象添加或者删除条目:
+```python
+    >>> from django.template import Context
+    >>> c = Context({"foo": "bar"})
+    >>> c['foo']
+    'bar'
+    >>> del c['foo']
+    >>> c['foo']
+    Traceback (most recent call last):
+      ...
+    KeyError: 'foo'
+    >>> c['newvariable'] = 'hello'
+    >>> c['newvariable']
+    'hello'
+```
+
 
