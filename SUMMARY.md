@@ -20,6 +20,8 @@
 * [第四章：模板](chapter04.md)
   * [模板系统基本知识](chapter04/section01.md)
   * [如何使用模板系统](chapter04/section02.md)
+  * [基本的模板标签和过滤器](chapter04/section03.md)
+  * [理念与局限](chapter04/section04.md)
 * [第五章：模型](di-wu-zhang-ff1a-mo-xing.md)
 * [第六章：Django站点管理](chapter06.md)
   * [django contrib包](chapter06/section01.md)
