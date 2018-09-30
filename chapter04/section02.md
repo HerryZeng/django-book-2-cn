@@ -274,3 +274,22 @@ Python 列表类型
 ```
 模板系统不会执行任何以该方式进行标记的方法。 接上面的例子，如果模板文件里包含了 {{ account.delete }} ，对象又具有 delete()方法，而且delete() 有alters_data=True这个属性，那么在模板载入时， delete()方法将不会被执行。 它将静静地错误退出。
 
+
+#### 如何处理无效变量
+
+默认情况下，如果一个变量不存在，模板系统会把它展示为空字符串，不做任何事情来表示失败。 例如： 
+```python
+    >>> from django.template import Template, Context
+    >>> t = Template('Your name is {{ name }}.')
+    >>> t.render(Context())
+    u'Your name is .'
+    >>> t.render(Context({'var': 'hello'}))
+    u'Your name is .'
+    >>> t.render(Context({'NAME': 'hello'}))
+    u'Your name is .'
+    >>> t.render(Context({'Name': 'hello'}))
+    u'Your name is .'
+```
+系统静悄悄地表示失败，而不是引发一个异常，因为这通常是人为错误造成的。 这种情况下，因为变量名有错误的状况或名称， 所有的查询都会失败。 现实世界中，对于一个web站点来说，如果仅仅因为一个小的模板语法错误而造成无法访问，这是不可接受的。
+
+
