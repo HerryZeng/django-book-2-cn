@@ -111,6 +111,7 @@ Python的字典数据类型就是关键字和它们值的一个映射。 Context
     </p>"
 ```
 让我们逐步来分析下这段代码： 
+
 首先我们导入 （import）类 Template 和 Context ，它们都在模块 django.template 里。 
 我们把模板原始文本保存到变量 raw_template 。注意到我们使用了三个引号来 标识这些文本，因为这样可以包含多行。 
 接下来，我们创建了一个模板对象 t ，把 raw_template 作为 Template 类构造函数的参数。 
@@ -121,5 +122,95 @@ Python的字典数据类型就是关键字和它们值的一个映射。 Context
 注意，warranty paragraph显示是因为 ordered_warranty 的值为 True . 注意时间的显示， April 2, 2009 , 它是按 'F j, Y' 格式显示的。 
 如果你是Python初学者，你可能在想为什么输出里有回车换行的字符('\n' )而不是 显示回车换行？ 因为这是Python交互解释器的缘故： 调用 t.render(c) 返回字符串， 解释器缺省显示这些字符串的 真实内容呈现 ，而不是打印这个变量的值。 要显示换行而不是 '\n' ，使用 print 语句： print t.render(c) 。 
 这就是使用Django模板系统的基本规则： **写模板，创建 Template 对象，创建 Context ， 调用 render() 方法**。 
+
+### 同一模板，多个上下文
+
+一旦有了`模板`对象，你就可以通过它渲染多个context， 例如：
+```python
+    >>> from django.template import Template, Context
+    >>> t = Template('Hello, {{ name }}')
+    >>> print t.render(Context({'name': 'John'}))
+    Hello, John
+    >>> print t.render(Context({'name': 'Julie'}))
+    Hello, Julie
+    >>> print t.render(Context({'name': 'Pat'}))
+    Hello, Pat
+```
+无论何时我们都可以像这样使用同一模板源渲染多个context，只进行 一次模板创建然后多次调用render()方法渲染会更为高效： 
+```python
+    # Bad
+    for name in ('John', 'Julie', 'Pat'):
+        t = Template('Hello, {{ name }}')
+        print t.render(Context({'name': name}))
+    
+    # Good
+    t = Template('Hello, {{ name }}')
+    for name in ('John', 'Julie', 'Pat'):
+        print t.render(Context({'name': name}))
+```
+Django 模板解析非常快捷。 大部分的解析工作都是在后台通过对简短正则表达式一次性调用来完成。 这和基于 XML 的模板引擎形成鲜明对比，那些引擎承担了 XML 解析器的开销，且往往比 Django 模板渲染引擎要慢上几个数量级。 
+
+### 深度变量的查找
+
+在到目前为止的例子中，我们通过 context 传递的简单参数值主要是字符串，还有一个 datetime.date 范例。 然而，模板系统能够非常简洁地处理更加复杂的数据结构，例如list、dictionary和自定义的对象。
+
+在 Django 模板中遍历复杂数据结构的关键是句点字符 (.)。 
+最好是用几个例子来说明一下。 比如，假设你要向模板传递一个 Python 字典。 要通过字典键访问该字典的值，可使用一个句点：
+```python
+    >>> from django.template import Template, Context
+    >>> person = {'name': 'Sally', 'age': '43'}
+    >>> t = Template('{{ person.name }} is {{ person.age }} years old.')
+    >>> c = Context({'person': person})
+    >>> t.render(c)
+    u'Sally is 43 years old.'
+```
+同样，也可以通过句点来访问对象的属性。 比方说， Python 的 datetime.date 对象有 year 、 month 和 day 几个属性，你同样可以在模板中使用句点来访问这些属性：
+```python
+    >>> from django.template import Template, Context
+    >>> import datetime
+    >>> d = datetime.date(1993, 5, 2)
+    >>> d.year
+    1993
+    >>> d.month
+    5
+    >>> d.day
+    2
+    >>> t = Template('The month is {{ date.month }} and the year is {{ date.year }}.')
+    >>> c = Context({'date': d})
+    >>> t.render(c)
+    u'The month is 5 and the year is 1993.'
+```
+这个例子使用了一个自定义的类，演示了通过实例变量加一点(dots)来访问它的属性，这个方法适用于任意的对象。
+```python
+    >>> from django.template import Template, Context
+    >>> class Person(object):
+    ...     def __init__(self, first_name, last_name):
+    ...         self.first_name, self.last_name = first_name, last_name
+    >>> t = Template('Hello, {{ person.first_name }} {{ person.last_name }}.')
+    >>> c = Context({'person': Person('John', 'Smith')})
+    >>> t.render(c)
+    u'Hello, John Smith.'
+```
+点语法也可以用来引用对象的**方法**。 例如，每个 Python 字符串都有 upper() 和 isdigit() 方法，你在模板中可以使用同样的句点语法来调用它们：
+```python
+    >>> from django.template import Template, Context
+    >>> t = Template('{{ var }} -- {{ var.upper }} -- {{ var.isdigit }}')
+    >>> t.render(Context({'var': 'hello'}))
+    u'hello -- HELLO -- False'
+    >>> t.render(Context({'var': '123'}))
+    u'123 -- 123 -- True'
+```
+注意这里调用方法时并**没有**使用圆括号 而且也无法给该方法传递参数；你只能调用不需参数的方法。 （我们将在本章稍后部分解释该设计观。） 
+最后，句点也可用于访问列表索引，例如：
+
+最后，句点也可用于访问列表索引，例如：
+```python
+    >>> from django.template import Template, Context
+    >>> t = Template('Item 2 is {{ items.2 }}.')
+    >>> c = Context({'items': ['apples', 'bananas', 'carrots']})
+    >>> t.render(c)
+    u'Item 2 is carrots.'
+```
+不允许使用负数列表索引。 像 {{ items.-1 }} 这样的模板变量将会引发`TemplateSyntaxError`。
 
 
