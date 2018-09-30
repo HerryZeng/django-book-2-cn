@@ -24,6 +24,7 @@
   * [理念与局限](chapter04/section04.md)
   * [在视图中使用模板](chapter04/section05.md)
   * [模板加载](chapter04/section06.md)
+  * [模板继承](chapter04/section07.md)
 * [第五章：模型](di-wu-zhang-ff1a-mo-xing.md)
 * [第六章：Django站点管理](chapter06.md)
   * [django contrib包](chapter06/section01.md)
